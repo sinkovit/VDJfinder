@@ -1,0 +1,18 @@
+rf              YYYYYGMDVWGQGTTVTVSS
+rf              YYYYYGMDVWGQGTTVTVSS
+rf              YYYYYYMDVWGKGTTVTVSS
+rf              YYYYYGMDVWGKGTTVTVSS
+rf              -DAF---DVWGQGTMVTVSS
+rf              -DAF---DIWGQGTMVTVSS
+rf              AEYF---QHWGQGTLVTVSS
+rf              -NWF---DSWGQGTLVTVSS
+rf              -NWF---DPWGQGTLVTVSS
+rf              YWYF---DLWGRGTLVTVSS
+rf              --YF---DYWGQGTLVTVSS
+rf              --YF---DYWGQGTLVTVSS
+rf              --YF---DYWGQGTLVTVSS
+                   :   : **.** *****
+
+Regular expression: WG[A-Z]G[KQR]GT[A-Z]VTVSS
+
+Note: May want to search on [FW][AG][A-Z]G...SS to be more general

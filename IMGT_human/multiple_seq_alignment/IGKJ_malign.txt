@@ -1,0 +1,14 @@
+rf              FTFGPGTKVDIK
+rf              LTFGGGTKVEIK
+rf              LTFGGGTKVEIK
+rf              WTFGQGTKVEIK
+rf              ITFGQGTRLEIK
+rf              CSFGQGTKLEIK
+rf              CTFGQGTKLEIK
+rf              YTFGQGTKLEIK
+rf              YSFGQGTKLEIK
+                 :** **.::**
+
+Regular expression: FG[A-Z]GT[KR][LV][DE]IK
+
+Note: May want to generalize to [FW][AG][A-Z]G

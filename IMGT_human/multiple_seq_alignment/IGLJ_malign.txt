@@ -1,0 +1,15 @@
+rf              YVFGTGTKVTVL
+rf              NVFGSGTKVTVL
+rf              FVFGGGTQLIIL
+rf              WVFGEGTELTVL
+rf              WVFGEGTELTVL
+rf              WVFGGGTKLTVL
+rf              VVFGGGTKLTVL
+rf              VVFGGGTKLTVL
+rf              AVFGGGTQLTVL
+rf              AVFGGGTQLTAL
+                 *** **::  *
+
+Regular expression: FG[A-Z]GT[EKQ][LV][A-Z]{2}L
+
+Note: May want to generalize to [FW][AG][A-Z]G

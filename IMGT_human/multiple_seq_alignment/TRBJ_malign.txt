@@ -1,0 +1,19 @@
+rf              TNEKL-FFGSGTQLSV-
+rf              SNQPQ-HFGDGTRLSIL
+rf              SGANVLTFGAGSRLTVL
+rf              NTEA--FFGQGTRLTVV
+rf              NTGEL-FFGEGSRLTVL
+rf              SGNTI-YFGEGSWLTVV
+rf              AKNIQ-YFGAGTRLSVL
+rf              NYGY--TFGSGTRLTVV
+rf              SYNSPLHFGNGTRLTVT
+rf              SYNSPLHFGNGTRLTVT
+rf              SYNEQ-FFGPGTRLTV-
+rf              SYEQ--YFGPGTRLTVT
+rf              -QETQ-YFGPGTRLLVL
+rf              STDTQ-YFGPGTRLTVL
+                       ** *:.* : 
+
+Regular expression: FG[A-Z]G[A-Z][ST][QRW][L][A-Z][IL]
+
+Note: May want to search on [FW][AG][A-Z]G to be more general
