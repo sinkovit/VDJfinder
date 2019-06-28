@@ -1,5 +1,6 @@
 from Bio.Seq import Seq
 from Bio import SeqIO
+import os
 import re
 import argparse
 
@@ -30,7 +31,7 @@ jgene_file = args.jgene_file
 vseq_dict   = {} # Dictionary of V gene sequences (key = allele, value = sequence)
 vtype_dict  = {} # Dictionary of V gene types (key = allele, value = gene type)
 if vgene_file:
-    vgene_out = vgene_file.replace('.fasta', '_found.fasta')
+    vgene_out = os.path.basename(vgene_file).replace('.fasta', '_found.fasta')
     vout = open(vgene_out, 'w')
     for vnt in SeqIO.parse(vgene_file, "fasta"):
         vnts    = str(vnt.seq).lower()
@@ -43,7 +44,7 @@ if vgene_file:
 dseq_dict   = {} # Dictionary of D gene sequences (key = allele, value = sequence)
 dtype_dict  = {} # Dictionary of D gene types (key = allele, value = gene type)
 if dgene_file:
-    dgene_out = dgene_file.replace('.fasta', '_found.fasta')
+    dgene_out = os.path.basename(dgene_file).replace('.fasta', '_found.fasta')
     dout = open(dgene_out, 'w')
     for dnt in SeqIO.parse(dgene_file, "fasta"):
         dnts    = str(dnt.seq).lower()
@@ -56,7 +57,7 @@ if dgene_file:
 jseq_dict   = {} # Dictionary of J gene sequences (key = allele, value = sequence)
 jtype_dict  = {} # Dictionary of J gene types (key = allele, value = gene type)
 if jgene_file:
-    jgene_out = jgene_file.replace('.fasta', '_found.fasta')
+    jgene_out = os.path.basename(jgene_file).replace('.fasta', '_found.fasta')
     jout = open(jgene_out, 'w')
     for jnt in SeqIO.parse(jgene_file, "fasta"):
         jnts    = str(jnt.seq).lower()
@@ -325,5 +326,3 @@ for nt in SeqIO.parse(locus_file, "fasta"):
                 jout.write(">{} {} nts: {} - {}\n".format(annot, gene_len, sta_nt, end_nt))
                 jout.write(gene)
                 jout.write("\n")
-                print(">", annot, gene_len, 'nts:', sta_nt, '-', end_nt)
-                print(upstream_heptamer, gene)
