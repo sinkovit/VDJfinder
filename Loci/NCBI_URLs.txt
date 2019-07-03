@@ -1,0 +1,15 @@
+IGH
+https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=3492
+
+IGK
+https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=50802
+
+IGL
+https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=3535
+
+TRA
+https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=6955
+
+TRB
+https://www.ncbi.nlm.nih.gov/gene?Db=gene&Cmd=DetailsSearch&Term=6957
+
