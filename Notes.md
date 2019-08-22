@@ -36,7 +36,7 @@ contains a stop codon) and three ORFs
 * IGHV3-38\*02 ORF 
 
 Finally, discovered that IGHV3-43\*01 and IGHV3-43D\*01 sequences in IMGT are not identical. Assuming that the 'D' in
-the latter indicates duplicates, this may indicate and error
+the latter indicates duplicates, this may indicate an error
 
 ### D genes
 
