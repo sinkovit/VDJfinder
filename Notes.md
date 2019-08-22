@@ -40,10 +40,9 @@ the latter indicates duplicates, this may indicate and error
 
 ### D genes
 
-Appear to be missing two D genes, but easy explanation for at least one
+Appear to be missing two D genes (IGHD6-25 and IGHD3-16), but easliy explained
 
-* IGHD6-25, as occurs in IGH locus, does not have necessary conserved upstream heptamer cactgtg. The three bases adjacent
+* IGHD6-25: occurs in IGH locus, does not have necessary conserved upstream heptamer cactgtg. The three bases adjacent
 to the gene must match 'gtg' and heptamer appears as 'cacagt**c**
+* IGHD3-16: Criteria for matching heptamer and nonamer sequences too strict. Relaxins slightly find this gene, but also returns several spurious results. Using an overall score for up/downstream RSSs easily filters these out.
 
-* IGHD3-16
-* IGHD6-25
