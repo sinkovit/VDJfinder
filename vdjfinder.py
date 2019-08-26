@@ -21,7 +21,57 @@ vgene_file = args.vgene_file
 dgene_file = args.dgene_file
 jgene_file = args.jgene_file
 
-# Notes
+# --- Default model parameters ---
+
+# This is where we set the default parameters for the the V, D and J
+# gene models. This includes motifs that are used to find the genes,
+# heptamer and nonamer consensus sequences and required number of
+# matches for nonamers, heptamers or combination. Note that we ALWAYS
+# require the three heptamer bases adjacent to the V, D, or J gene to
+# exactly match the consensus.
+
+# -- IGHV --
+# Motif description: Searching for pair of conserved Cys with intervening conserved Trp and [IVLFCMA]
+# Motif description: 8-17 aa between Cys1-Trp, 38-47 aa between Trp-[IVLFCMA], 12-14 aa between [IVLFCMA]-Cys2
+# Parameter notes: Nonamer matches < 6 or heptamer matches < 5 lead to more false positives
+# Parameter notes: Nonamer matches > 6 or heptamer matches > 5 lose real genes
+# Parameter notes: Total matches >= 13 filters ORFs without losing real genes
+ighv_motif = 'C[A-Z]{8,17}W[A-Z]{38,47}[IVLFCMA][A-Z]{12,14}C'
+ighv_heptamer_consensus = 'cacagtg'
+ighv_nonamer_consensus = 'acaaaaacc'
+ighv_nt_before_cys1 = 63
+ighv_min_heptamer_match = 5
+ighv_min_nonamer_match = 6
+ighv_min_total_match = 13
+
+# -- IGHD --
+# Motif description: Due to short length and lack of highly conserved regions, motif needs to include heptamers
+# Motif description: Look for 10-37 bases flanked by three conserved nt on each side plus additional conserved nt
+
+ighd_motif = '[acgt]ac[acgt]gtg[actg]{10,37}cac[acgt]g[actg]{2}'
+ighd_upstream_heptamer_consensus = 'cactgtg'
+ighd_upstream_nonamer_consensus = 'tgtttttgg'   #RSS question of whether last base is g or t
+ighd_downstream_heptamer_consensus = 'cacagtg'
+ighd_downstream_nonamer_consensus = 'acaaaaacc'
+ighd_min_upstream_heptamer_match = 5
+ighd_min_upstream_nonamer_match = 4
+ighd_min_downstream_heptamer_match = 5
+ighd_min_downstream_nonamer_match = 4
+ighd_min_total_match = 22
+
+
+# -- IGHJ --
+# Motif description: Trp and Ser-Ser separated by exactly 8 aa
+# Parameter notes: Nonamer matches >=5, heptamer matches >= 5 and no restriction on sum finds all J genes with no false positives
+ighj_motif = 'W[A-Z]{8}SS'
+ighj_heptamer_consensus = 'cactgtg'
+ighj_nonamer_consensus = 'ggtttttgt'
+ighj_min_heptamer_match = 5
+ighj_min_nonamer_match = 5
+ighj_min_total_match = 0
+
+
+# Notes regarding IMGT database
 # Partial in 5' means may be missing start of 5' region
 # Partial in 3' means may be missing start of 3' region
 # Max IGHV gene = 305 nt
@@ -33,6 +83,11 @@ vtype_dict  = {} # Dictionary of V gene types (key = allele, value = gene type)
 if vgene_file:
     vgene_out = os.path.basename(vgene_file).replace('.fasta', '_found.fasta')
     vout = open(vgene_out, 'w')
+    vout.write(">{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|\n".
+               format('annot', 'gene_len', 'sta_nt', 'end_nt', 
+                      'heptamer', 'heptamer_match',
+                      'nonamer', 'nonamer_match', 
+                      'spacer', 'total_match', 'notes'))
     for vnt in SeqIO.parse(vgene_file, "fasta"):
         vnts    = str(vnt.seq).lower()
         p = vnt.description.split('|')
@@ -46,6 +101,15 @@ dtype_dict  = {} # Dictionary of D gene types (key = allele, value = gene type)
 if dgene_file:
     dgene_out = os.path.basename(dgene_file).replace('.fasta', '_found.fasta')
     dout = open(dgene_out, 'w')
+    dout.write(">{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|\n".
+               format('annot', 'gene_len', 'sta_nt', 'end_nt', 
+                      'upstream_heptamer', 'upstream_heptamer_match',
+                      'upstream_nonamer', 'upstream_nonamer_match', 
+                      'upstream_spacer', 'upstream_total_match',
+                      'downstream_heptamer', 'downstream_heptamer_match',
+                      'downstream_nonamer', 'downstream_nonamer_match', 
+                      'downstream_spacer', 'downstream_total_match',
+                      'total_match', 'notes'))
     for dnt in SeqIO.parse(dgene_file, "fasta"):
         dnts    = str(dnt.seq).lower()
         p = dnt.description.split('|')
@@ -59,6 +123,11 @@ jtype_dict  = {} # Dictionary of J gene types (key = allele, value = gene type)
 if jgene_file:
     jgene_out = os.path.basename(jgene_file).replace('.fasta', '_found.fasta')
     jout = open(jgene_out, 'w')
+    jout.write(">{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|\n".
+               format('annot', 'gene_len', 'sta_nt', 'end_nt', 
+                      'heptamer', 'heptamer_match',
+                      'nonamer', 'nonamer_match', 
+                      'spacer', 'total_match', 'notes'))
     for jnt in SeqIO.parse(jgene_file, "fasta"):
         jnts    = str(jnt.seq).lower()
         p = jnt.description.split('|')
@@ -89,16 +158,8 @@ for nt in SeqIO.parse(locus_file, "fasta"):
     #aa_frame[0] = ''; aa_frame[1] = ''; aa_frame[2] = ''
 
     # -------------------- SEARCH FOR V GENES --------------------
-
-    # Find matches for V-genes (1st conserved Cys to 2nd conserved Cys)
-    # Max number of residues between Cys1-Trp       = 17
-    # Max number of residues between Tpr-[IVLFCMA]  = 47
-    # Max number of residues between [IVLFCMA]-Cys2 = 14
-    # Allow for missing residues - 9 in Cys1-Trp, 9 in Trp-[IVLFCMA], 2 in [IVLFCMA]-Cys2
-
-
     for frame,offset in zip(aa_frame,[0,1,2]):
-        for mcons in re.finditer('C[A-Z]{8,17}W[A-Z]{38,47}[IVLFCMA][A-Z]{12,14}C', frame):
+        for mcons in re.finditer(ighv_motif, frame):
             sta_aa = mcons.span()[0]         # Starting aa in frame
             end_aa = mcons.span()[1]         # End aa in frame
             sta_nt = sta_aa*3 + offset       # Start nt in original seq
@@ -116,27 +177,14 @@ for nt in SeqIO.parse(locus_file, "fasta"):
                 spacer  = flank[i+7:i+7+23]
                 nonamer = flank[i+7+23:i+7+23+9]
 
-                # heptamer consensus = cacagtg
-                heptamer_score = 0
-                if heptamer[3] == 'a': heptamer_score += 1
-                if heptamer[4] == 'g': heptamer_score += 1
-                if heptamer[5] == 't': heptamer_score += 1
-                if heptamer[6] == 'g': heptamer_score += 1
-                
-                # nonamer consensus = acaaaaacc
-                nonamer_score = 0
-                if nonamer[0] == 'a': nonamer_score += 1
-                if nonamer[1] == 'c': nonamer_score += 1
-                if nonamer[2] == 'a': nonamer_score += 1
-                if nonamer[3] == 'a': nonamer_score += 1
-                if nonamer[4] == 'a': nonamer_score += 1
-                if nonamer[5] == 'a': nonamer_score += 1
-                if nonamer[6] == 'a': nonamer_score += 1
-                if nonamer[7] == 'c': nonamer_score += 1
-                if nonamer[8] == 'c': nonamer_score += 1
+                heptamer_match = sum(c1 == c2 for c1, c2 in zip(heptamer, ighv_heptamer_consensus))
+                nonamer_match = sum(c1 == c2 for c1, c2 in zip(nonamer, ighv_nonamer_consensus))
+                total_match = heptamer_match + nonamer_match
 
-                # Setting nonamer_score lower than 6 leads to more false positives and breaks results
-                if heptamer[0:3] == 'cac' and heptamer_score >= 2 and nonamer_score >= 6:
+                if heptamer[0:3] == ighv_heptamer_consensus[0:3]      \
+                        and heptamer_match >= ighv_min_heptamer_match \
+                        and nonamer_match >= ighv_min_nonamer_match   \
+                        and total_match >= ighv_min_total_match:
                     end_nt += i
                     post_cys2 = i
                     found = True
@@ -144,30 +192,50 @@ for nt in SeqIO.parse(locus_file, "fasta"):
 
             # Set start of gene to 63 bases before first conserved Cys in IGH
             # (Use 66 bases for IGK and IGL)
-            sta_nt  -= 63
+            sta_nt  -= ighv_nt_before_cys1
             gene     = nts[sta_nt:end_nt]
-            aa       = frame[sta_aa-21:end_aa+int(post_cys2/3)]
+            aa       = frame[sta_aa - int(ighv_nt_before_cys1/3):end_aa + int(post_cys2/3)]
             gene_len = end_nt - sta_nt
 
             # Test V gene for stop codons
             if '*' in aa:
-                stop_codon = '(Contains stop codon)'
+                notes = 'Contains stop codon'
             else:
-                stop_codon = ''
+                notes = ''
 
             # Look for exact matches between discovered gene and known alleles
             # Allow for the possibility that multiple alleles have same sequence
             # Default assumption is that gene is not in database
-            annot = 'Not in V ref db'
-            for vallele, vseq in vseq_dict.items():
-                if gene == vseq:
-                    if annot == 'Not in V ref db':
-                        annot = vallele + ' ' + vtype_dict[vallele]
-                    else:
-                        annot = annot + ', ' + vallele + ' ' + vtype_dict[vallele]
 
+            annot = ''
+            for vallele, vseq in vseq_dict.items():
+                if (gene == vseq) or (gene in vseq) or (vseq in gene):
+                    if annot:
+                        annot += ', ' + vallele + ' ' + vtype_dict[vallele]
+                    else: 
+                        annot = vallele + ' ' + vtype_dict[vallele]
+
+                if gene in vseq and gene != vseq:
+                    if notes:
+                        notes += ', ' + 'Subset of ref seq'
+                    else:
+                        notes = 'Subset of ref seq'
+
+                if vseq in gene and gene != vseq:
+                    if notes:
+                        notes += ', ' + 'Superset of ref seq'
+                    else:
+                        notes = 'Superset of ref seq'
+            
+            if not annot:
+                annot = 'Not in V ref database'
+                    
             if found:
-                vout.write(">{} {} nts: {} - {} {}\n".format(annot, gene_len, sta_nt, end_nt, stop_codon))
+                vout.write(">{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|\n".
+                           format(annot, gene_len, sta_nt, end_nt, 
+                                  heptamer, heptamer_match,
+                                  nonamer, nonamer_match, 
+                                  spacer, total_match, notes))
                 vout.write(gene)
                 vout.write("\n")
                 last_v_nt = end_nt # Keep track of where last V gene found
@@ -175,61 +243,26 @@ for nt in SeqIO.parse(locus_file, "fasta"):
 
     # -------------------- SEARCH FOR D GENES --------------------
 
-    #for dseq in re.finditer('cac[acgt]gtg[acgt]{10,32}cac[acgt]gtg', nts):
-    #w/ hept>=2, non>=4 16 true pos, 0 false pos
-
-    #for dseq in re.finditer('[acgt]ac[acgt]gtg[acgt]{10,32}cac[acgt]gtg', nts):
-    # w/ hept>=2, non>=4 22 true pos, 2 false pos
-
-    for dseq in re.finditer('[acgt]ac[acgt]gtg[acgt]{10,37}cac[acgt]gtg', nts):
+    for dseq in re.finditer(ighd_motif, nts):
         sta_nt = dseq.span()[0]
         end_nt = dseq.span()[1]
         gene = nts[sta_nt+7:end_nt-7]
-        spacer = nts[end_nt:end_nt+12]
+        upstream_heptamer = nts[sta_nt:sta_nt+7]
+        upstream_spacer = nts[sta_nt-12:sta_nt]
+        upstream_nonamer = nts[sta_nt-12-9:sta_nt-12]
+        downstream_heptamer = nts[end_nt-7:end_nt]
+        downstream_spacer = nts[end_nt:end_nt+12]
+        downstream_nonamer = nts[end_nt+12:end_nt+12+9]
         gene_len = end_nt - sta_nt - 14
 
-        # upstream heptamer consensus = cactgtg
-        upstream_heptamer = nts[sta_nt:sta_nt+7]
-        upstream_heptamer_score = 0
-        if upstream_heptamer[0] == 'c': upstream_heptamer_score += 1
-        if upstream_heptamer[1] == 'a': upstream_heptamer_score += 1
-        if upstream_heptamer[2] == 'c': upstream_heptamer_score += 1
-        if upstream_heptamer[3] == 't': upstream_heptamer_score += 1
+        upstream_heptamer_match = sum(c1 == c2 for c1, c2 in zip(upstream_heptamer, ighd_upstream_heptamer_consensus))
+        upstream_nonamer_match = sum(c1 == c2 for c1, c2 in zip(upstream_nonamer, ighd_upstream_nonamer_consensus))
+        downstream_heptamer_match = sum(c1 == c2 for c1, c2 in zip(downstream_heptamer, ighd_downstream_heptamer_consensus))
+        downstream_nonamer_match = sum(c1 == c2 for c1, c2 in zip(downstream_nonamer, ighd_downstream_nonamer_consensus))
 
-        # upstream nonamer consensus = tgtttttgt
-        upstream_nonamer = nts[sta_nt-12-9:sta_nt-12]
-        upstream_nonamer_score = 0
-        if upstream_nonamer[0] == 't': upstream_nonamer_score += 1
-        if upstream_nonamer[1] == 'g': upstream_nonamer_score += 1
-        if upstream_nonamer[2] == 't': upstream_nonamer_score += 1
-        if upstream_nonamer[3] == 't': upstream_nonamer_score += 1
-        if upstream_nonamer[4] == 't': upstream_nonamer_score += 1
-        if upstream_nonamer[5] == 't': upstream_nonamer_score += 1
-        if upstream_nonamer[6] == 't': upstream_nonamer_score += 1
-        if upstream_nonamer[7] == 'g': upstream_nonamer_score += 1
-        if upstream_nonamer[8] == 'g': upstream_nonamer_score += 1 # RSS ERROR
-
-        # downstream heptamer consensus = cacagtg
-        downstream_heptamer = nts[end_nt-7:end_nt]
-        downstream_heptamer_score = 0
-        if downstream_heptamer[3] == 'a': downstream_heptamer_score += 1
-        if downstream_heptamer[4] == 'g': downstream_heptamer_score += 1
-        if downstream_heptamer[5] == 't': downstream_heptamer_score += 1
-        if downstream_heptamer[6] == 'g': downstream_heptamer_score += 1
-
-        # downstream nonamer consensus = acaaaaacc
-        downstream_nonamer = nts[end_nt+12:end_nt+12+9]
-        downstream_nonamer_score = 0
-        if downstream_nonamer[0] == 'a': downstream_nonamer_score += 1
-        if downstream_nonamer[1] == 'c': downstream_nonamer_score += 1
-        if downstream_nonamer[2] == 'a': downstream_nonamer_score += 1
-        if downstream_nonamer[3] == 'a': downstream_nonamer_score += 1
-        if downstream_nonamer[4] == 'a': downstream_nonamer_score += 1
-        if downstream_nonamer[5] == 'a': downstream_nonamer_score += 1
-        if downstream_nonamer[6] == 'a': downstream_nonamer_score += 1
-        if downstream_nonamer[7] == 'c': downstream_nonamer_score += 1
-        if downstream_nonamer[8] == 'c': downstream_nonamer_score += 1
-
+        upstream_total_match = upstream_heptamer_match + upstream_nonamer_match
+        downstream_total_match = downstream_heptamer_match + downstream_nonamer_match
+        total_match = upstream_total_match + downstream_total_match
 
         # Look for exact matches between discovered gene and known alleles
         # Allow for the possibility that multiple alleles have same sequence
@@ -246,24 +279,28 @@ for nt in SeqIO.parse(locus_file, "fasta"):
         # Flag D genes that start before last V gene
         if sta_nt < last_v_nt:
             continue
-            annot += ' / located in V gene region'
 
-        if (upstream_heptamer_score >= 2 and upstream_nonamer_score >= 4 and 
-            upstream_heptamer_score >= 2 and upstream_nonamer_score >= 4):
-            dout.write(">{} {} nts: {} - {}\n".format(annot, gene_len, sta_nt, end_nt))
+        if upstream_heptamer_match >= ighd_min_upstream_heptamer_match              \
+                and upstream_nonamer_match >= ighd_min_upstream_nonamer_match       \
+                and downstream_heptamer_match >= ighd_min_downstream_heptamer_match \
+                and downstream_nonamer_match >= ighd_min_downstream_nonamer_match   \
+                and total_match >= ighd_min_total_match:
+            dout.write(">{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|\n".
+                       format(annot, gene_len, sta_nt, end_nt, 
+                              upstream_heptamer, upstream_heptamer_match,
+                              upstream_nonamer, upstream_nonamer_match, 
+                              upstream_spacer, upstream_total_match,
+                              downstream_heptamer, downstream_heptamer_match,
+                              downstream_nonamer, downstream_nonamer_match, 
+                              downstream_spacer, downstream_total_match,
+                              total_match, notes))
             dout.write(gene)
             dout.write("\n")
 
     # -------------------- SEARCH FOR J GENES --------------------
 
-    # Search for W - 8 residues - SS
-    # Then search backwards to conserved flanking heptamer
-
-    # Uncomment to skip search for V and J genes
-    # aa_frame[0] = ''; aa_frame[1] = ''; aa_frame[2] = ''
-
     for frame,offset in zip(aa_frame,[0,1,2]):
-        for mcons in re.finditer('W[A-Z]{8}SS', frame):
+        for mcons in re.finditer(ighj_motif, frame):
             sta_aa = mcons.span()[0]         # Starting aa in frame
             end_aa = mcons.span()[1]         # End aa in frame
             sta_nt = sta_aa*3 + offset       # Start nt in original seq
@@ -272,57 +309,65 @@ for nt in SeqIO.parse(locus_file, "fasta"):
             # Search upstream for heptamer
             found     = False
             for i in range(0,39):
-                # upstream heptamer consensus = cactgtg
-                upstream_heptamer = nts[sta_nt-i-7:sta_nt-i]
-                upstream_heptamer_score = 0
-                if upstream_heptamer[0] == 'c': upstream_heptamer_score += 1
-                if upstream_heptamer[1] == 'a': upstream_heptamer_score += 1
-                if upstream_heptamer[2] == 'c': upstream_heptamer_score += 1
-                if upstream_heptamer[3] == 't': upstream_heptamer_score += 1
+                heptamer = nts[sta_nt-i-7:sta_nt-i]
+                nonamer = nts[sta_nt-i-7-23-9:sta_nt-i-7-23]
+                heptamer_match = sum(c1 == c2 for c1, c2 in zip(heptamer, ighj_heptamer_consensus))
+                nonamer_match = sum(c1 == c2 for c1, c2 in zip(nonamer, ighj_nonamer_consensus))
+                total_match = heptamer_match + nonamer_match
 
-                # upstream nonamer consensus = ggtttttgt
-                upstream_nonamer = nts[sta_nt-i-7-23-9:sta_nt-i-7-23]
-                upstream_nonamer_score = 0
-                if upstream_nonamer[0] == 'g': upstream_nonamer_score += 1
-                if upstream_nonamer[1] == 'g': upstream_nonamer_score += 1
-                if upstream_nonamer[2] == 't': upstream_nonamer_score += 1
-                if upstream_nonamer[3] == 't': upstream_nonamer_score += 1
-                if upstream_nonamer[4] == 't': upstream_nonamer_score += 1
-                if upstream_nonamer[5] == 't': upstream_nonamer_score += 1
-                if upstream_nonamer[6] == 't': upstream_nonamer_score += 1
-                if upstream_nonamer[7] == 'g': upstream_nonamer_score += 1
-                if upstream_nonamer[8] == 't': upstream_nonamer_score += 1
-
-
-                # Setting nonamer_score lower than 6 leads to more false positives and breaks results
-                if (upstream_heptamer[4:7] == 'gtg' and upstream_heptamer_score >= 2 
-                    and upstream_nonamer_score >= 5):
+                if heptamer[4:7] == ighj_heptamer_consensus[4:7]     \
+                        and heptamer_match >= ighj_min_heptamer_match \
+                        and nonamer_match >= ighj_min_nonamer_match   \
+                        and total_match >= ighj_min_total_match:
                     sta_nt -= i
                     found = True
                     break
 
-
             gene     = nts[sta_nt:end_nt]
             gene_len = end_nt - sta_nt
+
+            # Test J gene for stop codons
+            if '*' in aa:
+                notes = 'Contains stop codon'
+            else:
+                notes = ''
 
             # Look for exact matches between discovered gene and known alleles
             # Allow for the possibility that multiple alleles have same sequence
             # Default assumption is that gene is not in database
 
-            annot = 'Not in J ref db'
+            annot = ''
             for jallele, jseq in jseq_dict.items():
-                if gene == jseq:
-                    if annot == 'Not in J ref db':
+                if (gene == jseq) or (gene in jseq) or (jseq in gene):
+                    if annot:
+                        annot += ', ' + jallele + ' ' + jtype_dict[jallele]
+                    else: 
                         annot = jallele + ' ' + jtype_dict[jallele]
-                    else:
-                        annot = annot + ', ' + jallele + ' ' + jtype_dict[jallele]
 
+                if gene in jseq and gene != jseq:
+                    if notes:
+                        notes += ', ' + 'Subset of ref seq'
+                    else:
+                        notes = 'Subset of ref seq'
+
+                if jseq in gene and gene != jseq:
+                    if notes:
+                        notes += ', ' + 'Superset of ref seq'
+                    else:
+                        notes = 'Superset of ref seq'
+            
+            if not annot:
+                annot = 'Not in J ref database'
+                    
             # Flag J genes that start before last V gene
             if sta_nt < last_v_nt:
                 continue
-                # annot += ' / located in V gene region'
 
             if found:
-                jout.write(">{} {} nts: {} - {}\n".format(annot, gene_len, sta_nt, end_nt))
+                jout.write(">{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|\n".
+                           format(annot, gene_len, sta_nt, end_nt, 
+                                  heptamer, heptamer_match,
+                                  nonamer, nonamer_match, 
+                                  spacer, total_match, notes))
                 jout.write(gene)
                 jout.write("\n")

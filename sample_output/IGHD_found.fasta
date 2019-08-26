@@ -1,42 +1,45 @@
->IGHD1-1*01 F 17 nts: 960319 - 960350
+>annot|gene_len|sta_nt|end_nt|upstream_heptamer|upstream_heptamer_match|upstream_nonamer|upstream_nonamer_match|upstream_spacer|upstream_total_match|downstream_heptamer|downstream_heptamer_match|downstream_nonamer|downstream_nonamer_match|downstream_spacer|downstream_total_match|total_match|notes|
+>IGHD1-1*01 F|17|960319|960350|cacggtg|6|agattctga|5|acagccccgagt|11|caccgtg|6|tccaaaact|6|agaaaaactgtg|12|23||
 ggtacaactggaacgac
->IGHD2-2*01 F 31 nts: 962981 - 963026
+>IGHD2-2*01 F|31|962981|963026|cactgtg|7|ggattttgt|6|gggggctcgtgt|13|cacagtg|7|tcccaaagc|5|acacagccccat|12|25||
 aggatattgtagtagtaccagctgctatgcc
->IGHD3-3*01 F 31 nts: 965448 - 965493
+>IGHD3-3*01 F|31|965448|965493|cactgtg|7|ggtttgggg|6|tgaggtctgtgt|13|cacagtg|7|tcaaaaacc|8|tcacagagtcca|15|28||
 gtattacgatttttggagtggttattatacc
->IGHD4-11*01 ORF, IGHD4-4*01 F 16 nts: 966600 - 966630
+>IGHD4-11*01 ORF, IGHD4-4*01 F|16|966600|966630|tactgtg|6|gctttttgt|6|gaagggtcctcc|12|cacagtg|7|gcaaaaact|7|atgaacccagca|14|26||
 tgactacagtaactac
->IGHD5-18*01 F, IGHD5-5*01 F 20 nts: 967561 - 967595
+>IGHD5-18*01 F, IGHD5-5*01 F|20|967561|967595|gactgtg|6|ggttattgt|6|cagggggtgtca|12|cacagtg|7|gcagcaacc|6|gtgctgcccata|13|25||
 gtggatacagctatggttac
->IGHD6-6*01 F 18 nts: 969410 - 969442
+>IGHD6-6*01 F|18|969410|969442|cacagtg|6|agtttctga|6|aggtgtctgtgt|12|cacagtg|7|ccagaaacc|7|acactcgccagg|14|26||
 gagtatagcagctcgtcc
->IGHD1-7*01 F 17 nts: 969914 - 969945
+>IGHD1-7*01 F|17|969914|969945|cacagtg|6|ggattctga|5|acagccccgagt|11|cactgtg|6|tccaaaacg|6|agaaaagcttcg|12|23||
 ggtataactggaactac
->IGHD2-8*01 F 31 nts: 972596 - 972641
+>IGHD2-8*01 F|31|972596|972641|cactgtg|7|ggattttgt|6|gggggctcgtgt|13|cacagtg|7|tcccaaagc|5|acacagccccat|12|25||
 aggatattgtactaatggtgtatgctatacc
->IGHD3-9*01 F 31 nts: 975126 - 975171
+>IGHD3-9*01 F|31|975126|975171|cactgtg|7|ggtttagaa|4|tgaggtctgtgt|11|cacagtg|7|tcaaaaacc|8|tcacagagtcca|15|26||
 gtattacgatattttgactggttattataac
->IGHD3-10*01 F 31 nts: 975310 - 975355
+>IGHD3-10*01 F|31|975310|975355|cactgtg|7|ggtttgggg|6|tgaggtctgtgt|13|cacagtg|7|tcaaaaacc|8|tcacagagtcca|15|28||
 gtattactatggttcggggagttattataac
->IGHD5-12*01 F 23 nts: 977166 - 977203
+>IGHD5-12*01 F|23|977166|977203|gactgtg|6|ggttattgt|6|caggcgatgtca|12|cacagtg|7|gcagcaacc|6|gtgccgcccata|13|25||
 gtggatatagtggctacgattac
->IGHD6-13*01 F 21 nts: 978675 - 978710
+>IGHD6-13*01 F|21|978675|978710|cacagtg|6|ggtttctga|6|aggtgtctgtgt|12|cacagtg|7|ccagaaacc|7|acactcacccag|14|26||
 gggtatagcagcagctggtac
->IGHD2-15*01 F 31 nts: 981850 - 981895
+>IGHD2-15*01 F|31|981850|981895|cactgtg|7|ggattttgt|6|gggggctcgtgt|13|cacagtg|7|tcccaaagc|5|acacagacccat|12|25||
 aggatattgtagtggtggtagctgctactcc
->IGHD4-17*01 F 16 nts: 985314 - 985344
+>IGHD3-16*02 F|37|984167|984218|cactgtg|7|ggtttgaag|5|tgaggtctgtgt|12|cacagca|5|tcagaaacc|7|tcacacggtcca|12|24||
+gtattatgattacgtttgggggagttatcgttatacc
+>IGHD4-17*01 F|16|985314|985344|tactgtg|6|gctttttgt|6|gaaggcccctcc|12|cacagtg|7|gcaaaaact|7|atgaaactagca|14|26||
 tgactacggtgactac
->IGHD5-18*01 F, IGHD5-5*01 F 20 nts: 986276 - 986310
+>IGHD5-18*01 F, IGHD5-5*01 F|20|986276|986310|gactgtg|6|ggttattgt|6|cagggggtgtca|12|cacagtg|7|gcagcaacc|6|gtgctgcccata|13|25||
 gtggatacagctatggttac
->IGHD6-19*01 F 21 nts: 988118 - 988153
+>IGHD6-19*01 F|21|988118|988153|cacagtg|6|ggtttctga|6|agctgtctgtat|12|cacagtg|7|ccagaaacc|7|acactcgccagg|14|26||
 gggtatagcagtggctggtac
->IGHD1-20*01 F 17 nts: 988630 - 988661
+>IGHD1-20*01 F|17|988630|988661|cacagtg|6|ggattctga|5|acagccccgagt|11|caccgtg|6|tccaaaact|6|agaaaaactgtg|12|23||
 ggtataactggaacgac
->IGHD2-21*02 F 28 nts: 991259 - 991301
+>IGHD2-21*02 F|28|991259|991301|cactgtg|7|ggattttgt|6|gggggttcgtgt|13|cacagtg|7|tcctaaagc|5|acacaaccccat|12|25||
 agcatattgtggtggtgactgctattcc
->IGHD3-22*01 F 31 nts: 993776 - 993821
+>IGHD3-22*01 F|31|993776|993821|cactgtg|7|ggtttgaag|5|tgaggtctgtgt|12|cacagtg|7|tcaaaaact|7|tcacagagtcca|14|26||
 gtattactatgatagtagtggttattactac
->IGHD1-26*01 F 20 nts: 998784 - 998818
+>IGHD1-26*01 F|20|998784|998818|cacggtg|6|ggattctga|5|acagccccgagt|11|cactgtg|6|tccaaaact|6|agaaaagctatg|12|23||
 ggtatagtgggagctactac
->IGHD7-27*01 F 11 nts: 1014276 - 1014301
+>IGHD7-27*01 F|11|1014276|1014301|cactgtg|7|ggttttggc|6|tgagctgagaac|13|cacagtg|7|acaaaaacc|9|attggcagctct|16|29||
 ctaactgggga

@@ -1,12 +1,13 @@
->Not in J ref db 52 nts: 1014593 - 1014645
+>annot|gene_len|sta_nt|end_nt|heptamer|heptamer_match|nonamer|nonamer_match|spacer|total_match|notes|
+>IGHJ2*01 F|52|1014593|1014645|ggctgtg|5|gtgtttttg|5|ggccgccacggaggccagagaag|10|Subset of ref seq|
 ctactggtacttcgatctctggggccgtggcaccctggtcactgtctcctca
->Not in J ref db 49 nts: 1015208 - 1015257
+>IGHJ3*02 F|49|1015208|1015257|ccctgtg|6|ggtttatgt|8|ggccgccacggaggccagagaag|14|Subset of ref seq|
 tgatgcttttgatatctggggccaagggacaatggtcaccgtctcttca
->Not in J ref db 47 nts: 1015582 - 1015629
+>IGHJ4*02 F|47|1015582|1015629|caatgtg|6|ggtttttgt|9|ggccgccacggaggccagagaag|15|Subset of ref seq|
 actactttgactactggggccagggaaccctggtcaccgtctcctca
->IGHJ6*03 F 62 nts: 1016584 - 1016646
+>IGHJ6*03 F|62|1016584|1016646|cattgtg|6|gggtttttg|6|ggccgccacggaggccagagaag|12||
 attactactactactactacatggacgtctggggcaaagggaccacggtcaccgtctcctca
->Not in J ref db 51 nts: 1014386 - 1014437
+>IGHJ1*01 F|51|1014386|1014437|caccgtg|6|gggtttctg|5|ggccgccacggaggccagagaag|11|Subset of ref seq|
 gctgaatacttccagcactggggccagggcaccctggtcaccgtctcctca
->Not in J ref db 50 nts: 1015980 - 1016030
+>IGHJ5*02 F|50|1015980|1016030|caatgtg|6|agttcttgc|6|ggccgccacggaggccagagaag|12|Subset of ref seq|
 acaactggttcgacccctggggccagggaaccctggtcaccgtctcctca
