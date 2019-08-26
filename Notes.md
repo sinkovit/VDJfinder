@@ -11,6 +11,11 @@ more easily generalize to loci beside IgH
 Requiring the total number of heptamer and nonamer matches to be at least 13 eliminates two ORFs: 
 IGHV7-81\*01 and IGHV3-38\*02. Do not lose any functional genes.
 
+### D genes
+
+Setting a minimum score of 22 for total matches across 5'/3' nonamers and heptamers eliminates the three
+false positives we previously had.
+
 ## 8/21/19
 
 ### Finding genes containing / contained in IMGT sequences
@@ -57,5 +62,7 @@ Appear to be missing two D genes (IGHD6-25 and IGHD3-16), but easliy explained
 
 * IGHD6-25: occurs in IGH locus, does not have necessary conserved upstream heptamer cactgtg. The three bases adjacent
 to the gene must match 'gtg' and heptamer appears as 'cacagt**c**
-* IGHD3-16: Criteria for matching heptamer and nonamer sequences too strict. Relaxins slightly find this gene, but also returns several spurious results. Using an overall score for up/downstream RSSs easily filters these out.
+* IGHD3-16: Criteria for matching heptamer and nonamer sequences too strict. Relaxins slightly find this gene, but also
+returns several spurious results. Using an overall score for up/downstream RSSs easily filters these out.
 
+Also finding three additional genes that are not in the database
