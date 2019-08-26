@@ -1,3 +1,16 @@
+## 8/26/19
+
+### General
+
+Did an overall cleanup of the code to print out additional statistics on the RSS sequences with the goal
+of better discriminating between real genes and ORFs/pseudogenes. Also made the code more modular so that we can
+more easily generalize to loci beside IgH
+
+### V genes
+
+Requiring the total number of heptamer and nonamer matches to be at least 13 eliminates two ORFs: 
+IGHV7-81\*01 and IGHV3-38\*02. Do not lose any functional genes.
+
 ## 8/21/19
 
 ### Finding genes containing / contained in IMGT sequences
