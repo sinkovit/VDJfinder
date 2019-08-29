@@ -1,0 +1,11 @@
+>annot|gene_len|sta_nt|end_nt|heptamer|heptamer_match|nonamer|nonamer_match|spacer|total_match|notes|
+>IGKJ3*01 F|37|1374110|1374147|cactgtg|7|aggtttttg|5|taaagggaaaagttaagacgaat|12|Subset of ref seq|
+attcactttcggccctgggaccaaagtggatatcaaa
+>IGKJ1*01 F|37|1373445|1373482|cactgtg|7|ggtttttgt|9|tcagcaagacaatggagagctct|16|Subset of ref seq|
+gtggacgttcggccaagggaccaaggtggaaatcaaa
+>IGKJ2*04 (F)|38|1373805|1373843|cattgtg|6|agtttttgt|8|ataggagggaagttaagaggaac|14|Subset of ref seq|
+tgtgcagttttggccaggggaccaagctggagatcaaa
+>IGKJ4*01 F|37|1374445|1374482|cactgtg|7|ggtttttgt|9|tgaggggaaagggtgagatccct|16|Subset of ref seq|
+gctcactttcggcggagggaccaaggtggagatcaaa
+>IGKJ5*01 F|37|1374763|1374800|cactgtg|7|gatttttgt|8|taaggggaaagtaattaagttaa|15|Subset of ref seq|
+gatcaccttcggccaagggacacgactggagattaaa
