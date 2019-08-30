@@ -1,3 +1,31 @@
+## 8/29/19
+
+### General
+
+Finished cleanup of code so that Bailey can run with it. Broke searches for V, D and J genes out into separate
+functions and simplified logic where possible. Added specifications for IGK and IGL
+
+### IGLJ
+
+Finding all J genes that are not pseudogenes or ORFs: IGLJ1, 2, 3, 6 and 7 (4 and 5 are ORFs). 
+
+### IGKJ
+
+Finding all J genes: IGKJ1-5. Note that need to search reverse complement of IGK locus
+
+### IGLV
+
+Very few false positives or false negatives.
+
+* Found IGLV1-50, which is an ORF
+* Found one sequence not in data base
+* Missing IGLV3-22, which may have the wrong heptamer (CTCAGTG, first three bases should be CAC and conserved)
+* Missing IGLV3-22, which has correct motif, heptamer and nonamer. Needs a closer look
+
+### IGKV
+
+Appears to be working, but needs more investigation. Locus appears to contain inverted copy of V genes
+
 ## 8/26/19
 
 ### General
@@ -6,12 +34,12 @@ Did an overall cleanup of the code to print out additional statistics on the RSS
 of better discriminating between real genes and ORFs/pseudogenes. Also made the code more modular so that we can
 more easily generalize to loci beside IgH
 
-### V genes
+### IGHV genes
 
 Requiring the total number of heptamer and nonamer matches to be at least 13 eliminates two ORFs: 
 IGHV7-81\*01 and IGHV3-38\*02. Do not lose any functional genes.
 
-### D genes
+### IGHD genes
 
 Setting a minimum score of 22 for total matches across 5'/3' nonamers and heptamers eliminates the three
 false positives we previously had.
@@ -32,7 +60,7 @@ in the IMGT sequence. By doing this we now find additional matches when searchin
 * IGHJ1\*01 missing last 3' nt compared to IMGT
 * IGHJ5\*02 missing last 3' nt compared to IMGT
 
-### V genes
+### IGHV genes
 
 Appear to be finding all functional V genes. At first it looked like we might have missed eight V genes with functional
 alleles in the IMGT, but a solid explanation exists for each
@@ -56,7 +84,7 @@ contains a stop codon) and three ORFs
 Finally, discovered that IGHV3-43\*01 and IGHV3-43D\*01 sequences in IMGT are not identical. Assuming that the 'D' in
 the latter indicates duplicates, this may indicate an error
 
-### D genes
+### IGHD genes
 
 Appear to be missing two D genes (IGHD6-25 and IGHD3-16), but easliy explained
 
